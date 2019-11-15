@@ -3,15 +3,20 @@
   "displayName": "Actyx Pond",
   "publisher": "Actyx",
 	"description": "Create new fishes for your Actyx Pond in seconds, and define your commands and events from a high level syntax.",
-  "version": "0.1.0",
+  "version": "0.1.1",
 	"engines": {
 		"vscode": "^1.40.0"
   },
+  "license": "SEE LICENSE IN LICENSE",
+  "homepage": "https://actyx.com",
   "repository": {
+    "type": "git",
     "url": "https://github.com/Actyx/vscode-actyx-pond"
   },
+  "icon": "images/actyx.png",
 	"categories": [
-		"Other"
+    "Snippets",
+    "Formatters"
 	],
 	"activationEvents": [
 		"onCommand:actyx.newFish",

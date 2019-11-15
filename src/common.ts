@@ -27,7 +27,8 @@ export const consumeSelectedBlock = (
   return new Promise(resolve => {
     const selection = editor.selection
     const { start, end } = selection
-    const selectionRange = new vscode.Range(start, end)
+    const lineLength = editor.document.lineAt(end.line).text.length
+    const selectionRange = new vscode.Range(start.line, 0, end.line, lineLength)
     const selectedText = editor.document.getText(selectionRange)
     editor
       .edit(edit => {
