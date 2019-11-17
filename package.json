@@ -3,7 +3,7 @@
   "displayName": "Actyx Pond",
   "publisher": "Actyx",
 	"description": "Create new fishes for your Actyx Pond in seconds, and define your commands and events from a high level syntax.",
-  "version": "0.1.1",
+  "version": "0.1.4",
 	"engines": {
 		"vscode": "^1.40.0"
   },
@@ -45,7 +45,8 @@
 		"compile": "tsc -p ./",
 		"watch": "tsc -watch -p ./",
 		"pretest": "npm run compile",
-		"test": "node ./out/test/runTest.js"
+    "test": "node ./out/test/runTest.js",
+    "pack": "rm -f *.vsix && vsce package"
 	},
 	"devDependencies": {
 		"@types/glob": "^7.1.1",

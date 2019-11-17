@@ -1,3 +1,4 @@
+import { EOL } from 'os'
 import * as vscode from 'vscode'
 
 export const getFileName = (editor: vscode.TextEditor): string =>
@@ -32,7 +33,7 @@ export const consumeSelectedBlock = (
     const selectedText = editor.document.getText(selectionRange)
     editor
       .edit(edit => {
-        edit.delete(selection)
+        edit.delete(selectionRange)
       })
       .then(_ => resolve([selectedText, start]))
   })
@@ -102,3 +103,6 @@ export const createUnionContent = (t: Type, defs: Definitions): string =>
 export const createUnion = (t: Type, defs: Definitions): string => {
   return `export type ${t} =\n${createUnionContent(t, defs)}\n`
 }
+
+export const eol = (document: vscode.TextDocument) =>
+  document.eol === vscode.EndOfLine.LF ? '\n' : '\r\n'

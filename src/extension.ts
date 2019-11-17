@@ -31,23 +31,30 @@ export function activate(context: vscode.ExtensionContext): void {
             )
             .then(result => {
               if (result && result.title === 'Overwrite') {
-                // tslint:disable-next-line: no-floating-promises
-                createNewFish(editor, processedFishName).then(_ =>
+                createNewFish(editor, processedFishName).then(_ => {
                   window.showInformationMessage(
                     'Fish created. Continue with "Actyx: create event" and "Actyx: create commands" ',
-                  ),
-                )
+                  )
+                  // save when the file is not saved
+                  if (editor.document.isUntitled) {
+                    editor.document.save()
+                  }
+                }).catch(console.error)
               } else {
                 vscode.window.showInformationMessage('Create new fish is canceled by user')
               }
             })
         } else {
           // tslint:disable-next-line: no-floating-promises
-          createNewFish(editor, processedFishName).then(_ =>
+          createNewFish(editor, processedFishName).then(_ => {
             window.showInformationMessage(
               'Fish created. Continue with "Actyx: create event" and "Actyx: create commands" ',
-            ),
-          )
+            )
+            // save when the file is not saved
+            if (editor.document.isUntitled) {
+              editor.document.save()
+            }
+          })
         }
       })
     }

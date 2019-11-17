@@ -6,23 +6,24 @@ import {
   createUnion,
   createUnionContent,
   Definitions,
+  eol,
   TextPos,
 } from './common'
 
 const ON_COMMAND_IDENTIFIER = 'export const onCommand: OnCommand<State, Command, Event> = ('
 const ENUM_COMMAND_TYPE_IDENTIFIER = 'export enum CommandType {'
 const TYPE_COMMAND_IDENTIFIER = 'export type Command ='
-const SWITCH_CASE_IDENTIFIER = 'Command) => {\n\tswitch (command.type) {'
-const header = '/**\n * Fish Commands\n */\n'
+const SWITCH_CASE_IDENTIFIER = (n: string) => 'Command) => {' + n + '\tswitch (command.type) {'
+const header = (n: string) => '/**' + n + ' * Fish Commands' + n + ' */' + n + ''
 
-const createOnCommandCases = (defs: Definitions): string =>
-  defs.map(d => `\t\tcase CommandType.${d.name}: {\n\t\t\treturn []\n\t\t}`).join('\n')
+const createOnCommandCases = (defs: Definitions, n: string): string =>
+  defs.map(d => `\t\tcase CommandType.${d.name}: {${n}\t\t\treturn []${n}\t\t}`).join(n)
 
-const createOnCommandFunction = (defs: Definitions) => {
+const createOnCommandFunction = (defs: Definitions, n: string) => {
   const definition =
     'export const onCommand: OnCommand<State, Command, Event> = (_state: State, command: Command) => {'
-  const sw = `\tswitch (command.type) {\n${createOnCommandCases(defs)}\n\t}\n\treturn []`
-  return definition + '\n' + sw + '\n}'
+  const sw = `\tswitch (command.type) {${n}${createOnCommandCases(defs, n)}${n}\t}${n}\treturn []`
+  return definition + n + sw + n + '}'
 }
 
 export const buildCommands = async (
@@ -35,14 +36,15 @@ export const buildCommands = async (
     if (idx === -1) {
       editor
         .edit(edit => {
+          const n = eol(editor.document)
           edit.insert(
             pos,
-            header +
+            header(n) +
               createEnum('Command', commands) +
               createTypes('Command', commands) +
               createUnion('Command', commands) +
-              '\n' +
-              createOnCommandFunction(commands),
+              n +
+              createOnCommandFunction(commands, n),
           )
         })
         .then(_ => resolve())
@@ -59,9 +61,11 @@ const updateCommandStructure = (
 ): Promise<void> => {
   return new Promise(resolve => {
     const {
+      document,
       document: { getText, positionAt, lineAt },
     } = editor
 
+    const n = eol(document)
     // find positions in text
     const enumCommandTypeIdxOf = getText().indexOf(ENUM_COMMAND_TYPE_IDENTIFIER)
     if (enumCommandTypeIdxOf === -1) {
@@ -77,7 +81,7 @@ const updateCommandStructure = (
       return
     }
 
-    const switchCaseIdxOf = getText().indexOf(SWITCH_CASE_IDENTIFIER)
+    const switchCaseIdxOf = getText().indexOf(SWITCH_CASE_IDENTIFIER(n))
     if (switchCaseIdxOf === -1) {
       vscode.window.showInformationMessage('onCommand switch-case not found')
       return
@@ -89,10 +93,10 @@ const updateCommandStructure = (
 
     // map of all data to insert in the editor
     const insertData: ReadonlyArray<readonly [number, string]> = [
-      [positionAt(switchCaseIdxOf).line + 2, createOnCommandCases(commands) + '\n'],
-      [positionAt(typeCommandIdxOf).line + 1, createUnionContent('Command', commands) + '\n'],
+      [positionAt(switchCaseIdxOf).line + 2, createOnCommandCases(commands, n) + n],
+      [positionAt(typeCommandIdxOf).line + 1, createUnionContent('Command', commands) + n],
       [getEnumEnd(positionAt(enumCommandTypeIdxOf).line) + 1, createTypes('Command', commands)],
-      [positionAt(enumCommandTypeIdxOf).line + 1, createEnumContent(commands) + ',\n'],
+      [positionAt(enumCommandTypeIdxOf).line + 1, createEnumContent(commands) + ',' + n],
     ]
 
     // insert the editor. The positions change after the transaction :+1: :-)

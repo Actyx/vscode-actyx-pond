@@ -67,6 +67,11 @@ eventName(
 assignActivity(worker: Worker, activity: Activity)
 ```
 
+### 0.1.4
+
+* LF and CRLF compatible
+* lazy/incomplete selection is now supported
+* auto save after new Fish
 
 ### 0.1.0
 
