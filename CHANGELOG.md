@@ -1,5 +1,10 @@
 # Change Log
 
+## version 0.3.0
+
+* Multi-line types supported
+  * the known issue that only single line parameter types are supported is now fixed
+
 ## version 0.2.0
 
 * `export fish`

@@ -1,6 +1,7 @@
 import * as vscode from 'vscode'
 import { buildCommands } from './commands'
-import { consumeSelectedBlock, convertToDefinitions } from './common'
+import { consumeSelectedBlock } from './common'
+import { convertToDefinitions } from './definitionParser'
 import { buildEvents } from './events'
 import { createExportForAllFishes, createFishExport } from './exportFish'
 import { createNewFish } from './newFish'

@@ -5,10 +5,9 @@ import {
   createTypes,
   createUnion,
   createUnionContent,
-  Definitions,
   eol,
-  TextPos,
 } from './common'
+import { Definitions, TextPos } from './definitionParser'
 
 const ON_COMMAND_IDENTIFIER = 'export const onCommand: OnCommand<State, Command, Event> = ('
 const ENUM_COMMAND_TYPE_IDENTIFIER = 'export enum CommandType {'

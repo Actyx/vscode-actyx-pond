@@ -5,10 +5,9 @@ import {
   createTypes,
   createUnion,
   createUnionContent,
-  Definitions,
   eol,
-  TextPos,
 } from './common'
+import { Definitions, TextPos } from './definitionParser'
 
 const ON_EVENT_IDENTIFIER = 'export const onEvent: OnEvent<State, Event> = ('
 const ENUM_EVENT_TYPE_IDENTIFIER = 'export enum EventType {'
