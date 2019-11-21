@@ -1,7 +1,62 @@
 import * as vscode from 'vscode'
 import { getFileName, removeFileExtension, toPascalCase, toSemantics } from './common'
+import { createFishExport } from './exportFish'
 
-export const createNewFish = (editor: vscode.TextEditor, fishName: string): Promise<void> =>
+export const createNewFish = (): void => {
+  const { window } = vscode
+  const editor = window.activeTextEditor
+  if (editor) {
+    const placeHolder = getNewFishPlaceHolder(editor)
+    window.showInputBox({ placeHolder }).then(fishName => {
+      // validate user input as fish name
+      const processedFishName = processFishName(fishName, placeHolder)
+      if (!processedFishName) {
+        vscode.window.showInformationMessage('The fish name is mandatory')
+        return
+      }
+
+      // if there are more than two lines, get approvement from user to delete content
+      if (editor.document.lineCount > 2) {
+        window
+          .showWarningMessage<vscode.MessageItem>(
+            'Your current file is not empty. This command will overwrite your content',
+            { modal: true },
+            { title: 'Overwrite', isCloseAffordance: false },
+            { title: 'Cancel', isCloseAffordance: true },
+          )
+          .then(async result => {
+            if (result && result.title === 'Overwrite') {
+              await createNewFishContent(editor, processedFishName).then(_ => {
+                window.showInformationMessage(
+                  'Fish created. Continue with "Actyx: create event" and "Actyx: create commands" ',
+                )
+                // save when the file is not saved
+                saveFish(editor)
+              })
+            } else {
+              vscode.window.showInformationMessage('Create new fish is canceled by user')
+            }
+          })
+      } else {
+        // tslint:disable-next-line: no-floating-promises
+        createNewFishContent(editor, processedFishName).then(_ => {
+          window.showInformationMessage(
+            'Fish created. Continue with "Actyx: create event" and "Actyx: create commands" ',
+          )
+          saveFish(editor)
+        })
+      }
+    })
+  }
+}
+
+const saveFish = (editor: vscode.TextEditor) => {
+  if (editor.document.isUntitled) {
+    editor.document.save()
+  }
+}
+
+export const createNewFishContent = (editor: vscode.TextEditor, fishName: string): Promise<void> =>
   new Promise(async resolve => {
     const { document } = editor
     const lastLineLength = document.lineAt(document.lineCount - 1).text.length
@@ -45,6 +100,7 @@ const createFishBody = (fishName: string, semantics: string): string => `import 
   Semantics,
   Subscription,
 } from 'ada'
+import { SnapshotFormat } from 'ada/types'
 
 /*
  * Fish State
@@ -57,14 +113,14 @@ const initialState: InitialState<State> = (_name, _sourceId) => ({
 })
 
 // EVENTS
-event1(param1:type)
-event2(param1:type, param2:type)
-event3
+// example:
+// userLoggedIn(user:User, terminal:string)
+// userLoggedOut(terminal:string)
 
 // COMMANDS
-command1(param1:type, param2:type)
-command2(param1:type)
-command3
+// example:
+// loginUser(user:string, password: string, terminal:string)
+// logoutUser(terminal:string)
 
 /*
  * Local Snapshot
@@ -86,5 +142,5 @@ export const ${fishName} = FishType.of<State, Command, Event, State>({
   onStateChange: OnStateChange.publishPrivateState(),
   localSnapshot,
   semanticSnapshot: (_name, _sourceId) => ev => false,
-}
+})
 `

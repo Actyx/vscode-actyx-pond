@@ -1,25 +1,26 @@
 {
 	"name": "actyx-pond",
-  "displayName": "Actyx Pond",
-  "publisher": "Actyx",
+	"displayName": "Actyx Pond",
+	"publisher": "Actyx",
 	"description": "Create new fishes for your Actyx Pond in seconds, and define your commands and events from a high level syntax.",
-  "version": "0.1.4",
+	"version": "0.2.0",
 	"engines": {
-		"vscode": "^1.40.0"
-  },
-  "license": "SEE LICENSE IN LICENSE",
-  "homepage": "https://actyx.com",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Actyx/vscode-actyx-pond"
-  },
-  "icon": "images/actyx.png",
+		"vscode": "^1.39.0"
+	},
+	"license": "SEE LICENSE IN LICENSE",
+	"homepage": "https://actyx.com",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Actyx/vscode-actyx-pond/tree/master"
+	},
+	"icon": "images/actyx.png",
 	"categories": [
-    "Snippets",
-    "Formatters"
+		"Snippets",
+		"Formatters"
 	],
 	"activationEvents": [
 		"onCommand:actyx.newFish",
+		"onCommand:actyx.exportFish",
 		"onCommand:actyx.events",
 		"onCommand:actyx.commands"
 	],
@@ -31,12 +32,38 @@
 				"title": "Actyx: new fish"
 			},
 			{
+				"command": "actyx.exportFish",
+				"title": "Actyx: export fish"
+			},
+			{
 				"command": "actyx.events",
 				"title": "Actyx: create events"
 			},
 			{
 				"command": "actyx.commands",
 				"title": "Actyx: create commands"
+			}
+		],
+		"keybindings": [
+			{
+				"key": "Alt+a n",
+				"command": "actyx.newFish",
+				"when": "editorTextFocus"
+			},
+			{
+				"key": "Alt+a x",
+				"command": "actyx.exportFish",
+				"when": "editorTextFocus"
+			},
+			{
+				"key": "Alt+a e",
+				"command": "actyx.events",
+				"when": "editorHasSelection"
+			},
+			{
+				"key": "Alt+a c",
+				"command": "actyx.commands",
+				"when": "editorHasSelection"
 			}
 		]
 	},
@@ -45,14 +72,14 @@
 		"compile": "tsc -p ./",
 		"watch": "tsc -watch -p ./",
 		"pretest": "npm run compile",
-    "test": "node ./out/test/runTest.js",
-    "pack": "rm -f *.vsix && vsce package"
+		"test": "node ./out/test/runTest.js",
+		"pack": "rm -f *.vsix && vsce package"
 	},
 	"devDependencies": {
 		"@types/glob": "^7.1.1",
 		"@types/mocha": "^5.2.7",
 		"@types/node": "^12.11.7",
-		"@types/vscode": "^1.40.0",
+		"@types/vscode": "^1.39.0",
 		"glob": "^7.1.5",
 		"mocha": "^6.2.2",
 		"prettier": "^1.19.1",

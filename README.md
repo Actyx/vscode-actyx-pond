@@ -7,10 +7,15 @@ The Actyx Pond vscode extension will power up your development speed dramaticall
 Create this extension contributes tree new commands:
 
 * `Actyx: new fish`: overwrite the current file with a new fish definition
-* `Actyx: create events`: convert the *selected* events to a event definition and add it to the onEvent function
-* `Actyx: create commands`: convert the *selected* command to a command definition and add it to the onCommand function
+* `Actyx: export fish`: export the fish definition in the index.ts with aliases.
+* `Actyx: create events`: convert the **selected** events to a event definition and add it to the onEvent function
+* `Actyx: create commands`: convert the **selected** command to a command definition and add it to the onCommand function
 
-![All Options](images/allOptions.png)
+## Demo
+
+![newFish](https://raw.githubusercontent.com/Actyx/vscode-actyx-pond/master/images/newFish.gif)
+
+---
 
 ### `Actyx: new fish`: Create a new fish definition
 
@@ -44,13 +49,15 @@ commandName(parameter: type)
 commandName(parameter: type, para...)
 ```
 
-## How it works
+### `Actyx: export fish`
 
-![newFish](images/newFish.gif)
+In larger Projects is it very comfortable to Import your fishes and for example the EventTypes from a combined index.ts file. When you run the `Actyx: export fish` command, your current fish definition will be exported with alias referring to your fish (e.g: WorkstationFish => `WorkstationEvent`, `WorkstationEventType`, ...) in the index.ts file next to the definition. We are recommend to define all your fishes in a dedicated `fishes` directory to reuse them in any places you need.
 
-## Release notes
+I you Like to define all your fishes first or you have already some defined fishes, you can run the `Actyx: export fish` command in the index.ts file next to the definitions. This will generate the missing `export` sections for all fish definitions
 
-### known issues
+---
+
+## Known issues
 
 Currently, there are only single line types supported. Multi line types will fail by creating them automatically. You can add them later in the definition or use types to define this data structures  
 
@@ -67,16 +74,8 @@ eventName(
 assignActivity(worker: Worker, activity: Activity)
 ```
 
-### 0.1.4
+---
 
-* LF and CRLF compatible
-* lazy/incomplete selection is now supported
-* auto save after new Fish
+### For more information
 
-### 0.1.0
-
-Initial release of
-
-* `new fish`
-* `create events`
-* `create commands`
+* [Source code](https://github.com/Actyx/vscode-actyx-pond)

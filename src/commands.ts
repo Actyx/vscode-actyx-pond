@@ -13,16 +13,16 @@ import {
 const ON_COMMAND_IDENTIFIER = 'export const onCommand: OnCommand<State, Command, Event> = ('
 const ENUM_COMMAND_TYPE_IDENTIFIER = 'export enum CommandType {'
 const TYPE_COMMAND_IDENTIFIER = 'export type Command ='
-const SWITCH_CASE_IDENTIFIER = (n: string) => 'Command) => {' + n + '\tswitch (command.type) {'
+const SWITCH_CASE_IDENTIFIER = (n: string) => 'Command) => {' + n + '  switch (command.type) {'
 const header = (n: string) => '/**' + n + ' * Fish Commands' + n + ' */' + n + ''
 
 const createOnCommandCases = (defs: Definitions, n: string): string =>
-  defs.map(d => `\t\tcase CommandType.${d.name}: {${n}\t\t\treturn []${n}\t\t}`).join(n)
+  defs.map(d => `    case CommandType.${d.name}: {${n}      return []${n}    }`).join(n)
 
 const createOnCommandFunction = (defs: Definitions, n: string) => {
   const definition =
     'export const onCommand: OnCommand<State, Command, Event> = (_state: State, command: Command) => {'
-  const sw = `\tswitch (command.type) {${n}${createOnCommandCases(defs, n)}${n}\t}${n}\treturn []`
+  const sw = `  switch (command.type) {${n}${createOnCommandCases(defs, n)}${n}  }${n}  return []`
   return definition + n + sw + n + '}'
 }
 

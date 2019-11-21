@@ -2,7 +2,7 @@ import { EOL } from 'os'
 import * as vscode from 'vscode'
 
 export const getFileName = (editor: vscode.TextEditor): string =>
-  editor.document.uri.fsPath.split('/').slice(-1)[0] || ''
+  editor.document.uri.fsPath.split(/[\/\\]/).slice(-1)[0] || ''
 
 export const removeFileExtension = (filename: string): string =>
   filename
@@ -20,7 +20,44 @@ export const toSemantics = (str: string): string => {
   const [first = '', ...rest] = str
   return `${first.toLowerCase()}${rest.join('')}`
 }
-////////////////////////
+
+const getLastSeparator = (path: string): number => {
+  const lastSl = path.lastIndexOf('/')
+  const lastBackSl = path.lastIndexOf('\\')
+  return Math.max(lastSl, lastBackSl)
+}
+
+export const extractEditorFileInfo = (editor: vscode.TextEditor) => {
+  const file = editor.document.uri.toString()
+  const relFilePath = vscode.workspace.asRelativePath(editor.document.uri)
+  const wsPath = vscode.workspace.getWorkspaceFolder(editor.document.uri)!.uri.toString()
+
+  const lastSeparatorFilePath = getLastSeparator(relFilePath)
+  const lastSeparator = getLastSeparator(file)
+
+  const relPath = relFilePath.substr(0, lastSeparatorFilePath)
+  const fileName = file.substr(lastSeparator + 1)
+  const [fishName] = fileName.split('.')
+
+  const res = {
+    uri: editor.document.uri,
+    fileName,
+    fishName,
+    relFilePath,
+    file,
+    relPath,
+
+    path: wsPath + '/' + relPath,
+    pathUri: vscode.Uri.parse(wsPath + '/' + relPath),
+    isRoot: lastSeparatorFilePath === -1,
+  }
+  return res
+}
+
+export const extractStringFileInfo = (file: string, editor: vscode.TextEditor) => {
+  const currentFile = extractEditorFileInfo(editor)
+  return vscode.Uri.parse(currentFile.path + '/' + file)
+}
 
 export const consumeSelectedBlock = (
   editor: vscode.TextEditor,

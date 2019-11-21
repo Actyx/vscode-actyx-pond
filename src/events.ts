@@ -14,17 +14,17 @@ const ON_EVENT_IDENTIFIER = 'export const onEvent: OnEvent<State, Event> = ('
 const ENUM_EVENT_TYPE_IDENTIFIER = 'export enum EventType {'
 const TYPE_EVENT_IDENTIFIER = 'export type Event ='
 const SWITCH_CASE_IDENTIFIER = (n: string) =>
-  'const { payload } = event' + n + '\tswitch (payload.type) {'
+  'const { payload } = event' + n + '  switch (payload.type) {'
 const header = (n: string) => '/**' + n + ' * Fish Events' + n + ' */' + n
 
 const createOnEventCases = (defs: Definitions, n: string): string =>
-  defs.map(d => `\t\tcase EventType.${d.name}: {${n}\t\t\treturn {}${n}\t\t}`).join(n)
+  defs.map(d => `    case EventType.${d.name}: {${n}      return {}${n}    }`).join(n)
 
 const createOnEventFunction = (defs: Definitions, n: string) => {
   const definition =
     'export const onEvent: OnEvent<State, Event> = (state: State, event: Envelope<Event>) => {'
-  const destruct = '\tconst { payload } = event'
-  const sw = `\tswitch (payload.type) {${n}${createOnEventCases(defs, n)}${n}\t}${n}\treturn state`
+  const destruct = '  const { payload } = event'
+  const sw = `  switch (payload.type) {${n}${createOnEventCases(defs, n)}${n}  }${n}  return state`
   return definition + n + destruct + n + sw + n + '}'
 }
 
