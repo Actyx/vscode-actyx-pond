@@ -4,12 +4,12 @@ A Visual Studio Code extension for the *Actyx Pond* framework including shortcut
 
 ## Features
 
-This extension comprises four commands
+This extension contributes four commands
 
 * `Actyx: new fish`: overwrite the current file with a new fish definition
 * `Actyx: export fish`: export the fish definition in the index.ts with aliases.
-* `Actyx: create events`: convert the **selected** events to an event definition and add it to the `onEvent()` function
-* `Actyx: create commands`: convert the **selected** command to a command definition and add it to the `onCommand()` function
+* `Actyx: create events`: convert the **selected** events to an event definition and add it to the `onEvent(...)` function
+* `Actyx: create commands`: convert the **selected** command to a command definition and add it to the `onCommand(...)` function
 
 ## Demo
 
@@ -17,11 +17,11 @@ This extension comprises four commands
 
 ---
 
-> To access the shortcuts please press `⌘+⇧+P` on a mac and `ctrl + ⇧ + P` on a windows machine. 
-> 
+> To access the shortcuts please press `ctrl + ⇧ + P` on a linux or windows and `⌘+⇧+P` on a mac machine.
+
 ### `Actyx: new fish`: Create a new fish definition
 
-Open a new file and run the `Actyx: new fish` command. VS-Code opens a Popup and asks you for a fish name and try to overwrite the content of the active document. To avoid conversions, use a fish name like `/[a-z_]/i`
+Open a new file and run the `Actyx: new fish` command or `Alt + A` followed by `N`. VS-Code opens a Popup and asks you for a fish name and try to overwrite the content of the active document. To avoid conversions, use a fish name like `/[a-z_]/i`
 
 ### `Actyx: create events`: Define events for the fish
 
@@ -36,7 +36,7 @@ eventName
 eventName(parameter: type)
 eventName(parameter: type, para...)
 eventName(
-  parameter: type, 
+  parameter: type,
   para...
 )
 // nested parameter
@@ -61,7 +61,7 @@ commandName
 commandName(parameter: type)
 commandName(parameter: type, para...)
 commandName(
-  parameter: type, 
+  parameter: type,
   para...
 )
 // nested parameter
