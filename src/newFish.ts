@@ -107,9 +107,9 @@ import { SnapshotFormat } from 'ada/types'
  */
 export type State = {}
 export type PublicState = State
-const initialState: InitialState<State> = (_name, _sourceId) => ({
+const initialState: InitialState<State> = (name, _sourceId) => ({
   state: {},
-  subscriptions: [Subscription.of(${fishName}.semantics)],
+  subscriptions: [Subscription.of(${fishName}, name)],
 })
 
 // EVENTS
@@ -125,7 +125,7 @@ const initialState: InitialState<State> = (_name, _sourceId) => ({
 /*
  * Local Snapshot
  */
-const localSnapshot: SnapshotFormat<State> = {
+const localSnapshot: SnapshotFormat<State, any> = {
   version: 1,
   serialize: state => state,
   deserialize: state => state as State,
