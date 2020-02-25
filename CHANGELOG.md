@@ -1,5 +1,14 @@
 # Change Log
 
+## version 0.3.2
+
+* lint fix
+
+## version 0.3.1
+
+* new fish logo for the plugin
+* update to new SnapshotFormat
+
 ## version 0.3.0
 
 * Multi-line types supported

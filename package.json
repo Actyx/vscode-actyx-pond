@@ -3,7 +3,7 @@
 	"displayName": "Actyx Pond",
 	"publisher": "Actyx",
 	"description": "Create new fishes for your Actyx Pond in seconds, and define your commands and events from a high level syntax.",
-	"version": "0.3.1",
+	"version": "0.3.2",
 	"engines": {
 		"vscode": "^1.39.0"
 	},

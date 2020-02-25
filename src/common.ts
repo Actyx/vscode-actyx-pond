@@ -79,7 +79,7 @@ type Type = 'Event' | 'Command'
 
 export const createEnumContent = (def: Definitions): string =>
   def
-    .map(x => `${x.name} = "${x.name}"`)
+    .map(x => `${x.name} = '${x.name}'`)
     .map(x => '  ' + x)
     .join(',\n')
 
