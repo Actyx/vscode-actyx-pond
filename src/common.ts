@@ -84,7 +84,7 @@ export const createEnumContent = (def: Definitions): string =>
     .join(',\n')
 
 export const createEnum = (t: Type, def: Definitions): string =>
-  `export enum ${t}Type {\n${createEnumContent(def)}\n}\n`
+  `export enum ${t}Type {\n${createEnumContent(def)},\n}\n`
 
 export const createTypes = (t: Type, defs: Definitions): string => {
   return defs.map(def => createType(t, def)).join('\n') + '\n'
