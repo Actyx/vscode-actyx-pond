@@ -1,5 +1,9 @@
 # Change Log
 
+## version 0.4.0
+
+* switch to public npm package
+
 ## version 0.3.2
 
 * lint fix

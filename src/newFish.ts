@@ -87,7 +87,7 @@ export const processFishName = (
   return (inputFishName.toUpperCase().endsWith('FISH')
     ? inputFishName
     : inputFishName + 'Fish'
-  ).replace(/[^a-zA-Z]/g, '_')
+  ).replace(/[^a-zA-Z0-9]/g, '_')
 }
 
 const createFishBody = (fishName: string, semantics: string): string => `import {
@@ -99,8 +99,8 @@ const createFishBody = (fishName: string, semantics: string): string => `import 
   OnStateChange,
   Semantics,
   Subscription,
-} from 'ada'
-import { SnapshotFormat } from 'ada/types'
+} from '@actyx/pond'
+import { SnapshotFormat } from '@actyx/pond/lib/types'
 
 /*
  * Fish State
