@@ -12,8 +12,7 @@ import { Definitions, TextPos } from './definitionParser'
 const ON_EVENT_IDENTIFIER = 'export const onEvent: OnEvent<State, Event> = ('
 const ENUM_EVENT_TYPE_IDENTIFIER = 'export enum EventType {'
 const TYPE_EVENT_IDENTIFIER = 'export type Event ='
-const SWITCH_CASE_IDENTIFIER = (n: string) =>
-  'const { payload } = event' + n + '  switch (payload.type) {'
+const SWITCH_CASE_IDENTIFIER = (n: string) => '} = event' + n + '  switch (payload.type) {'
 const header = (n: string) => '/**' + n + ' * Fish Events' + n + ' */' + n
 
 const createOnEventCases = (defs: Definitions, n: string): string =>

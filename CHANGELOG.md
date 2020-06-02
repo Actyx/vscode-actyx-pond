@@ -1,5 +1,9 @@
 # Change Log
 
+## version 0.4.1
+
+* SnapshotFormat is now directly exported form from @actyx/pond
+
 ## version 0.4.0
 
 * switch to public npm package

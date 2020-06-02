@@ -1,6 +1,5 @@
 import * as vscode from 'vscode'
 import { getFileName, removeFileExtension, toPascalCase, toSemantics } from './common'
-import { createFishExport } from './exportFish'
 
 export const createNewFish = (): void => {
   const { window } = vscode
@@ -99,8 +98,8 @@ const createFishBody = (fishName: string, semantics: string): string => `import 
   OnStateChange,
   Semantics,
   Subscription,
+  SnapshotFormat,
 } from '@actyx/pond'
-import { SnapshotFormat } from '@actyx/pond/lib/types'
 
 /*
  * Fish State
@@ -134,7 +133,7 @@ const localSnapshot: SnapshotFormat<State, any> = {
 /*
  * Fish Definition
  */
-export const ${fishName} = FishType.of<State, Command, Event, State>({
+export const ${fishName} = FishType.of<State, Command, Event, PublicState>({
   semantics: Semantics.of('ax.${semantics}'),
   initialState,
   onEvent,
